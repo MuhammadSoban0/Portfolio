@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "./ui/button";
 import profileImage from "@/assets/profile.png";
+import ThemeToggle from "./ThemeToggle";
 
 const navItems = [
   { name: "Home", href: "#hero" },
@@ -91,13 +92,16 @@ const Navbar = () => {
                       scrollToSection(item.href);
                     }}
                     className={`text-sm font-medium transition-colors relative group ${
-                      isScrolled ? "text-black/80 hover:text-accent" : "text-white/80 hover:text-accent"
+                      isScrolled
+                        ? "text-black/80 dark:text-white/90 hover:text-accent"
+                        : "text-white/80 dark:text-white/90 hover:text-accent"
                     }`}
                   >
                     {item.name}
                     <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full" />
                   </a>
                 ))}
+                <ThemeToggle />
                 <Button
                   variant="default"
                   className="bg-accent text-navy hover:bg-accent/90 rounded-full px-6"
@@ -109,7 +113,7 @@ const Navbar = () => {
 
               {/* Mobile Menu Button */}
               <button
-                className={`md:hidden ${isScrolled ? "text-black" : "text-white"}`}
+                className={`md:hidden ${isScrolled ? "text-black" : "text-white"} dark:text-white`}
                 onClick={() => setIsMobileMenuOpen(true)}
               >
                 <Menu className="w-6 h-6" />
@@ -170,6 +174,9 @@ const Navbar = () => {
                     Hire Me
                   </Button>
                 </motion.div>
+                <div className="mt-6">
+                  <ThemeToggle />
+                </div>
               </div>
             </div>
           </motion.div>

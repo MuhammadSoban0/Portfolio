@@ -68,6 +68,10 @@ const ProjectCard = ({ title, description, tags, links, cover, screenshots, colo
         transformStyle: "preserve-3d",
       }}
       className="group relative"
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
     >
       <div className="relative mx-auto w-[280px] h-[580px] bg-black rounded-[3rem] border-[8px] border-gray-900 shadow-2xl overflow-hidden transform transition-transform duration-500 group-hover:scale-105">
         {/* Phone Notch */}
