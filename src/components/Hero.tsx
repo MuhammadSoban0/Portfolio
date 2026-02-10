@@ -13,6 +13,15 @@ const Hero = () => {
   const springX = useSpring(mouseX, springConfig);
   const springY = useSpring(mouseY, springConfig);
 
+  const cta1X = useMotionValue(0);
+  const cta1Y = useMotionValue(0);
+  const cta2X = useMotionValue(0);
+  const cta2Y = useMotionValue(0);
+  const cta1SpringX = useSpring(cta1X, springConfig);
+  const cta1SpringY = useSpring(cta1Y, springConfig);
+  const cta2SpringX = useSpring(cta2X, springConfig);
+  const cta2SpringY = useSpring(cta2Y, springConfig);
+
   const handleMouseMove = (e: React.MouseEvent) => {
     const { clientX, clientY } = e;
     const { innerWidth, innerHeight } = window;
@@ -22,6 +31,32 @@ const Hero = () => {
     mouseY.set(y * 20);
   };
 
+  const handleMagnetMove1 = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const dx = e.clientX - (rect.left + rect.width / 2);
+    const dy = e.clientY - (rect.top + rect.height / 2);
+    const fx = Math.max(-12, Math.min(12, dx * 0.15));
+    const fy = Math.max(-12, Math.min(12, dy * 0.15));
+    cta1X.set(fx);
+    cta1Y.set(fy);
+  };
+  const handleMagnetLeave1 = () => {
+    cta1X.set(0);
+    cta1Y.set(0);
+  };
+  const handleMagnetMove2 = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const dx = e.clientX - (rect.left + rect.width / 2);
+    const dy = e.clientY - (rect.top + rect.height / 2);
+    const fx = Math.max(-12, Math.min(12, dx * 0.15));
+    const fy = Math.max(-12, Math.min(12, dy * 0.15));
+    cta2X.set(fx);
+    cta2Y.set(fy);
+  };
+  const handleMagnetLeave2 = () => {
+    cta2X.set(0);
+    cta2Y.set(0);
+  };
   // Text reveal animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -106,21 +141,41 @@ const Hero = () => {
               className="flex flex-wrap gap-4 justify-center lg:justify-start pb-8 lg:pb-0"
               variants={itemVariants}
             >
-              <Button
-                size="lg"
-                className="bg-accent hover:bg-accent/90 text-navy font-bold px-8 h-12 rounded-full shadow-glow hover:scale-105 transition-all duration-300"
-                onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+              <motion.div
+                initial={{ scale: 0.96 }}
+                whileInView={{ scale: [1, 1.05, 0.98, 1] }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                style={{ x: cta1SpringX, y: cta1SpringY }}
+                onMouseMove={handleMagnetMove1}
+                onMouseLeave={handleMagnetLeave1}
               >
-                View My Work
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-2 border-accent/50 text-foreground hover:bg-accent/10 hover:border-accent h-12 rounded-full px-8 hover:scale-105 transition-all duration-300"
-                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                <Button
+                  size="lg"
+                  className="bg-accent hover:bg-accent/90 text-navy font-bold px-8 h-12 rounded-full shadow-glow hover:scale-105 transition-all duration-300"
+                  onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+                >
+                  View My Work
+                </Button>
+              </motion.div>
+              <motion.div
+                initial={{ scale: 0.96 }}
+                whileInView={{ scale: [1, 1.05, 0.98, 1] }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
+                style={{ x: cta2SpringX, y: cta2SpringY }}
+                onMouseMove={handleMagnetMove2}
+                onMouseLeave={handleMagnetLeave2}
               >
-                Contact Me
-              </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-2 border-accent/50 text-foreground hover:bg-accent/10 hover:border-accent h-12 rounded-full px-8 hover:scale-105 transition-all duration-300"
+                  onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                >
+                  Contact Me
+                </Button>
+              </motion.div>
             </motion.div>
 
             {/* Social Links */}

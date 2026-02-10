@@ -80,10 +80,14 @@ const ProjectCard = ({ title, description, tags, links, cover, screenshots, colo
         {/* Screen Content */}
         <div className="relative w-full h-full bg-gray-800 overflow-hidden">
           <div className="absolute inset-0">
-            <img
+            <motion.img
               src={cover}
               alt={title}
               className="w-full h-full object-cover opacity-100 transition-opacity duration-500"
+              initial={{ scale: 0.98 }}
+              whileInView={{ scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
             />
           </div>
 
@@ -290,6 +294,9 @@ const Projects = () => {
               src={profileImage}
               alt="Muhammad Soban"
               className="w-20 h-20 rounded-full object-cover border-4 border-accent/20 shadow-2xl"
+              initial={{ opacity: 0.9, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.3 }}
             />

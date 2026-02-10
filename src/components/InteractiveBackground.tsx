@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 
 const InteractiveBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -8,6 +9,8 @@ const InteractiveBackground = () => {
   >([]);
   const dimsRef = useRef<{ w: number; h: number }>({ w: 0, h: 0 });
   const mouseRef = useRef<{ nx: number; ny: number }>({ nx: 0, ny: 0 });
+  const [ripples, setRipples] = useState<Array<{ id: number; x: number; y: number }>>([]);
+  const nextIdRef = useRef(0);
 
   useEffect(() => {
     const center = () => {
@@ -30,9 +33,18 @@ const InteractiveBackground = () => {
     const onLeave = () => center();
     window.addEventListener("pointermove", onMove);
     window.addEventListener("mouseleave", onLeave);
+    const onClick = (e: MouseEvent) => {
+      const id = nextIdRef.current++;
+      setRipples((prev) => [...prev, { id, x: e.clientX, y: e.clientY }]);
+      setTimeout(() => {
+        setRipples((prev) => prev.filter((r) => r.id !== id));
+      }, 800);
+    };
+    window.addEventListener("click", onClick);
     return () => {
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("mouseleave", onLeave);
+      window.removeEventListener("click", onClick);
     };
   }, []);
 
@@ -169,6 +181,22 @@ const InteractiveBackground = () => {
               "radial-gradient(380px circle at var(--cursor-x) var(--cursor-y), rgba(255,255,255,0.24), transparent 65%)",
           }}
         />
+        {ripples.map((r) => (
+          <motion.span
+            key={r.id}
+            className="absolute rounded-full border border-white/40"
+            style={{
+              left: r.x,
+              top: r.y,
+              width: "8px",
+              height: "8px",
+              transform: "translate(-50%, -50%)",
+            }}
+            initial={{ scale: 0, opacity: 0.35 }}
+            animate={{ scale: 10, opacity: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          />
+        ))}
       </div>
     </>
   );

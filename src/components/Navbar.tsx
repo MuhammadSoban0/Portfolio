@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "./ui/button";
 import profileImage from "@/assets/profile.png";
@@ -15,6 +15,11 @@ const navItems = [
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const hireX = useMotionValue(0);
+  const hireY = useMotionValue(0);
+  const springConfig = { damping: 25, stiffness: 150 };
+  const hireSpringX = useSpring(hireX, springConfig);
+  const hireSpringY = useSpring(hireY, springConfig);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,6 +36,19 @@ const Navbar = () => {
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
+  };
+  const handleHireMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const dx = e.clientX - (rect.left + rect.width / 2);
+    const dy = e.clientY - (rect.top + rect.height / 2);
+    const fx = Math.max(-12, Math.min(12, dx * 0.15));
+    const fy = Math.max(-12, Math.min(12, dy * 0.15));
+    hireX.set(fx);
+    hireY.set(fy);
+  };
+  const handleHireLeave = () => {
+    hireX.set(0);
+    hireY.set(0);
   };
 
   return (
@@ -102,13 +120,23 @@ const Navbar = () => {
                   </a>
                 ))}
                 <ThemeToggle />
-                <Button
-                  variant="default"
-                  className="bg-accent text-navy hover:bg-accent/90 rounded-full px-6"
-                  onClick={() => scrollToSection("#contact")}
+                <motion.div
+                  initial={{ scale: 0.96 }}
+                  whileInView={{ scale: [1, 1.05, 0.98, 1] }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, ease: "easeOut" }}
+                  style={{ x: hireSpringX, y: hireSpringY }}
+                  onMouseMove={handleHireMove}
+                  onMouseLeave={handleHireLeave}
                 >
-                  Hire Me
-                </Button>
+                  <Button
+                    variant="default"
+                    className="bg-accent text-navy hover:bg-accent/90 rounded-full px-6"
+                    onClick={() => scrollToSection("#contact")}
+                  >
+                    Hire Me
+                  </Button>
+                </motion.div>
               </div>
 
               {/* Mobile Menu Button */}

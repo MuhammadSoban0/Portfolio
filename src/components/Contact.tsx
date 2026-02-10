@@ -206,23 +206,30 @@ const Contact = () => {
                         </div>
                       </div>
 
-                      <Button
-                        type="submit"
-                        disabled={isSubmitting}
-                        className="w-full bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-400 hover:to-purple-400 text-white font-semibold h-12 shadow-lg shadow-purple-500/30 transition-all duration-300"
+                      <motion.div
+                        initial={{ scale: 0.96 }}
+                        whileInView={{ scale: [1, 1.05, 0.98, 1] }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
                       >
-                        {isSubmitting ? (
-                          <motion.div
-                            animate={{ rotate: 360 }}
-                            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                            className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
-                          />
-                        ) : (
-                          <>
-                            Send Message <Send className="w-4 h-4 ml-2" />
-                          </>
-                        )}
-                      </Button>
+                        <Button
+                          type="submit"
+                          disabled={isSubmitting}
+                          className="w-full bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-400 hover:to-purple-400 text-white font-semibold h-12 shadow-lg shadow-purple-500/30 transition-all duration-300"
+                        >
+                          {isSubmitting ? (
+                            <motion.div
+                              animate={{ rotate: 360 }}
+                              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                              className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
+                            />
+                          ) : (
+                            <>
+                              Send Message <Send className="w-4 h-4 ml-2" />
+                            </>
+                          )}
+                        </Button>
+                      </motion.div>
                     </form>
                   </div>
                 </div>
