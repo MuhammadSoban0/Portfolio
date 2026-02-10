@@ -1,10 +1,10 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import { ExternalLink, Github, ArrowLeft, ArrowRight } from "lucide-react";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { Apple, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import React from "react";
 import profileImage from "@/assets/profile.png";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+ 
 import chateo_1 from "../../Projects_imgs/Chateo/Screenshot_20260205_123456.jpg";
 import chateo_2 from "../../Projects_imgs/Chateo/Screenshot_20260205_123510.jpg";
 import easy_1 from "../../Projects_imgs/Easy Credit Repairs/Screenshot_20260205_123249.jpg";
@@ -38,15 +38,16 @@ interface ProjectCardProps {
   description: string;
   tags: string[];
   links: {
-    demo: string;
-    github: string;
+    appStore: string;
+    playStore: string;
   };
   cover: string;
   screenshots: string[];
   color: string;
+  cardIndex?: number;
 }
 
-const ProjectCard = ({ title, description, tags, links, cover, screenshots, color }: ProjectCardProps) => {
+const ProjectCard = ({ title, description, tags, links, cover, screenshots, color, cardIndex = 0 }: ProjectCardProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: cardRef,
@@ -57,6 +58,28 @@ const ProjectCard = ({ title, description, tags, links, cover, screenshots, colo
   const rotateX = useTransform(scrollYProgress, [0, 0.5, 1], [15, 0, -15]);
   const rotateY = useTransform(scrollYProgress, [0, 0.5, 1], [-10, 0, 10]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const intervalRef = useRef<number | null>(null);
+  useEffect(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+    if (screenshots.length <= 1) return;
+    const startDelay = Math.floor(Math.random() * 800);
+    const stepInterval = 5000 + Math.floor(Math.random() * 4000);
+    const start = window.setTimeout(() => {
+      setCurrentIndex((i) => (i + 1) % screenshots.length);
+      intervalRef.current = window.setInterval(() => {
+        setCurrentIndex((i) => (i + 1) % screenshots.length);
+      }, stepInterval);
+    }, startDelay);
+    return () => {
+      clearTimeout(start);
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [screenshots.length, cardIndex]);
 
   return (
     <motion.div
@@ -80,100 +103,66 @@ const ProjectCard = ({ title, description, tags, links, cover, screenshots, colo
         {/* Screen Content */}
         <div className="relative w-full h-full bg-gray-800 overflow-hidden">
           <div className="absolute inset-0">
-            <motion.img
-              src={cover}
-              alt={title}
-              className="w-full h-full object-cover opacity-100 transition-opacity duration-500"
-              initial={{ scale: 0.98 }}
-              whileInView={{ scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-            />
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={currentIndex}
+                src={screenshots[currentIndex]}
+                alt={`${title} ${currentIndex + 1}`}
+                className="w-full h-full object-cover opacity-100"
+                initial={{ opacity: 0, x: 24 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -24 }}
+                transition={{
+                  opacity: { duration: 0.6, ease: "easeInOut" },
+                  x: { duration: 0.7, ease: "easeInOut" },
+                }}
+              />
+            </AnimatePresence>
+            <div className="absolute inset-0 bg-gradient-to-tr from-black/10 to-transparent pointer-events-none z-10 rounded-[2rem]" />
           </div>
 
           <div className="absolute inset-x-0 bottom-0 z-10">
-            <div className="rounded-3xl bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl p-4 sm:p-6">
+            <div className="rounded-3xl bg-black/40 backdrop-blur-xl border border-white/15 shadow-2xl p-4 sm:p-5 transition-colors duration-300 group-hover:bg-black/55">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
               >
                 <div className="mb-2">
-                  <h3 className="text-2xl font-bold text-black drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">{title}</h3>
+                  <h3 className="text-lg font-semibold text-white">{title}</h3>
                 </div>
-                <p className="text-black/85 drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)] text-sm mb-4">
+                <p className="text-white/80 text-xs sm:text-sm mb-3 max-h-12 overflow-hidden">
                   {description}
                 </p>
 
-                <div className="flex flex-wrap gap-2 mb-6">
+                <div className="flex flex-wrap gap-1.5 mb-4">
                   {tags.map((tag) => (
                     <span
                       key={tag}
-                      className="text-xs px-2 py-1 rounded-full bg-white/60 text-black backdrop-blur-sm border border-black/10"
+                      className="text-[11px] px-2 py-0.5 rounded-full bg-white/10 text-white border border-white/20"
                     >
                       {tag}
                     </span>
                   ))}
                 </div>
 
-                <div className="flex gap-3">
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button
-                        size="sm"
-                        className="flex-1 bg-black/70 text-white hover:bg-black/80 border border-white/20"
-                      onClick={() => setCurrentIndex(0)}
-                      >
-                        <ExternalLink className="w-4 h-4 mr-2" /> Demo
-                      </Button>
-                    </DialogTrigger>
-                  <DialogContent className="w-auto max-w-[88vw] sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-[520px] max-h-[85vh] overflow-y-auto overflow-x-hidden p-4 rounded-2xl">
-                      <DialogHeader>
-                        <DialogTitle>{title} Preview</DialogTitle>
-                      </DialogHeader>
-                    <div className="w-full flex flex-col items-center gap-4">
-                      <div
-                        className="relative mx-auto bg-black rounded-[2rem] border-[6px] border-gray-900 shadow-xl overflow-hidden"
-                        style={{ width: "min(85vw, 240px)", aspectRatio: "9/19.5", maxHeight: "55vh" }}
-                      >
-                        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-5 sm:w-32 sm:h-6 bg-black rounded-b-2xl z-20" />
-                        <div className="absolute inset-0 bg-gray-800 overflow-hidden">
-                          <img
-                            src={screenshots[currentIndex]}
-                            alt={`${title} ${currentIndex + 1}`}
-                            className="w-full h-full object-fill"
-                          />
-                        </div>
-                        <div className="absolute inset-0 bg-gradient-to-tr from-black/10 to-transparent pointer-events-none z-20 rounded-[2rem]" />
-                      </div>
-                      <div className="sticky bottom-0 left-0 right-0 w-full flex justify-center px-4">
-                        <div className="inline-flex items-center justify-center gap-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg px-2 py-2 shadow-md">
-                        <Button
-                          size="sm"
-                          className="bg-black/70 text-white hover:bg-black/80 border border-white/20"
-                          onClick={() => setCurrentIndex((currentIndex - 1 + screenshots.length) % screenshots.length)}
-                        >
-                          <ArrowLeft className="w-4 h-4 mr-2" /> Back
-                        </Button>
-                        <Button
-                          size="sm"
-                          className="bg-black/70 text-white hover:bg-black/80 border border-white/20"
-                          onClick={() => setCurrentIndex((currentIndex + 1) % screenshots.length)}
-                        >
-                          Next <ArrowRight className="w-4 h-4 ml-2" />
-                        </Button>
-                        </div>
-                      </div>
-                    </div>
-                    </DialogContent>
-                  </Dialog>
+                <div className="grid grid-cols-2 gap-2 items-center mt-2 pt-2 border-t border-white/10">
                   <Button
                     size="sm"
-                    className="flex-1 border-white/20 text-white hover:bg-white/10"
+                    className="min-w-0 w-full bg-white/10 text-white hover:bg-white/20 border border-white/20 px-2 py-2 text-xs"
                     asChild
                   >
-                    <a href={links.github} target="_blank" rel="noopener noreferrer">
-                      <Github className="w-4 h-4 mr-2" /> Code
+                    <a href={links.appStore} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-1.5">
+                      <Apple className="w-3.5 h-3.5" /> App Store
+                    </a>
+                  </Button>
+                  <Button
+                    size="sm"
+                    className="min-w-0 w-full bg-white/10 text-white hover:bg-white/20 border border-white/20 px-2 py-2 text-xs"
+                    asChild
+                  >
+                    <a href={links.playStore} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-1.5">
+                      <Play className="w-3.5 h-3.5" /> Google Play
                     </a>
                   </Button>
                 </div>
@@ -199,7 +188,7 @@ const projects = [
     title: "RBB App",
     description: "Banking and finance app with account management and secure transactions.",
     tags: ["Flutter", "Security", "Finance"],
-    links: { demo: "#", github: "#" },
+    links: { appStore: "#", playStore: "#" },
     cover: rbb_1,
     screenshots: [rbb_1, rbb_2, rbb_3, rbb_4, rbb_5],
     color: "from-blue-500 to-cyan-600",
@@ -208,7 +197,7 @@ const projects = [
     title: "Salonary",
     description: "Salon management: appointments, staff, and inventory streamlined.",
     tags: ["Flutter", "Firebase", "Stripe"],
-    links: { demo: "#", github: "#" },
+    links: { appStore: "#", playStore: "#" },
     cover: salon_1,
     screenshots: [salon_1, salon_2, salon_3, salon_4, salon_5],
     color: "from-pink-500 to-purple-600",
@@ -217,7 +206,7 @@ const projects = [
     title: "Every Day Muslim",
     description: "Prayer times, Qibla, and duas with a clean interface.",
     tags: ["Flutter", "REST API", "Location"],
-    links: { demo: "#", github: "#" },
+    links: { appStore: "#", playStore: "#" },
     cover: edm_1,
     screenshots: [edm_1],
     color: "from-green-500 to-emerald-600",
@@ -226,7 +215,7 @@ const projects = [
     title: "Islamic Trivia",
     description: "Quiz app with categories and leaderboards.",
     tags: ["Flutter", "Firebase", "AdMob"],
-    links: { demo: "#", github: "#" },
+    links: { appStore: "#", playStore: "#" },
     cover: trivia_1,
     screenshots: [trivia_1, trivia_2, trivia_3, trivia_4, trivia_5],
     color: "from-emerald-500 to-teal-600",
@@ -235,7 +224,7 @@ const projects = [
     title: "Numerology Wizard",
     description: "Numerology calculations and insights with shareable results.",
     tags: ["Flutter", "Charts", "Local DB"],
-    links: { demo: "#", github: "#" },
+    links: { appStore: "#", playStore: "#" },
     cover: num_1,
     screenshots: [num_1, num_2, num_3, num_4, num_5],
     color: "from-indigo-500 to-purple-600",
@@ -244,7 +233,7 @@ const projects = [
     title: "Chateo",
     description: "Real-time chat with channels, media sharing, and notifications.",
     tags: ["Flutter", "Socket.io", "Push"],
-    links: { demo: "#", github: "#" },
+    links: { appStore: "#", playStore: "#" },
     cover: chateo_1,
     screenshots: [chateo_1, chateo_2],
     color: "from-sky-500 to-blue-600",
@@ -253,7 +242,7 @@ const projects = [
     title: "Easy Credit Repairs",
     description: "Credit repair workflow with guidance and tracking.",
     tags: ["Flutter", "Forms", "Cloud"],
-    links: { demo: "#", github: "#" },
+    links: { appStore: "#", playStore: "#" },
     cover: easy_1,
     screenshots: [easy_1, easy_2, easy_3, easy_4],
     color: "from-orange-500 to-amber-600",
@@ -310,8 +299,8 @@ const Projects = () => {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 justify-items-center">
-          {projects.map((project) => (
-            <ProjectCard key={project.title} {...project} />
+          {projects.map((project, index) => (
+            <ProjectCard key={project.title} {...project} cardIndex={index} />
           ))}
         </div>
       </div>
