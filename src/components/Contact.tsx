@@ -104,7 +104,12 @@ const Contact = () => {
                           </div>
                           <div>
                             <h4 className="font-semibold mb-1 text-white text-sm">Email</h4>
-                            <p className="text-purple-200 text-sm">sobahannan654@gmail.com</p>
+                            <a
+                              href="mailto:sobahannan654@gmail.com"
+                              className="text-purple-200 text-sm hover:text-white hover:underline underline-offset-2"
+                            >
+                              sobahannan654@gmail.com
+                            </a>
                           </div>
                         </motion.div>
 
@@ -133,7 +138,7 @@ const Contact = () => {
                           href="https://github.com/MuhammadSoban0"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-cyan-500 hover:text-white transition-colors text-xs font-medium text-purple-100 border border-white/20 flex items-center gap-2"
+                          className="px-3 py-1.5 rounded-lg bg-[#24292e] hover:bg-[#24292e]/90 text-white transition-colors text-xs font-medium border border-transparent flex items-center gap-2"
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                         >
@@ -143,7 +148,7 @@ const Contact = () => {
                           href="https://www.linkedin.com/in/muhammad-soban-856bab2a0?utm_source=share_via&utm_content=profile&utm_medium=member_android"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-cyan-500 hover:text-white transition-colors text-xs font-medium text-purple-100 border border-white/20 flex items-center gap-2"
+                          className="px-3 py-1.5 rounded-lg bg-[#0A66C2] hover:bg-[#0A66C2]/90 text-white transition-colors text-xs font-medium border border-transparent flex items-center gap-2"
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                         >
