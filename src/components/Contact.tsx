@@ -1,11 +1,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Mail, MessageSquare, Send, User, AtSign, MessageCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Mail, MessageSquare, Github, Linkedin } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import React, { useState } from "react";
-import { toast } from "sonner";
+import React from "react";
 
 const Contact = () => {
   const sectionRef = React.useRef<HTMLElement>(null);
@@ -17,25 +13,9 @@ const Contact = () => {
   const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
   const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1500));
-
-    toast.success("Message sent successfully!", {
-      description: "I'll get back to you as soon as possible.",
-    });
-
-    setIsSubmitting(false);
-    (e.target as HTMLFormElement).reset();
-  };
 
   return (
-    <section id="contact" ref={sectionRef} className="py-20 bg-gradient-to-br from-violet-950 via-purple-900 to-fuchsia-900 relative overflow-hidden">
+    <section id="contact" ref={sectionRef} className="py-12 bg-gradient-to-br from-violet-950 via-purple-900 to-fuchsia-900 relative overflow-hidden">
       {/* Background decoration with parallax */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
@@ -83,18 +63,18 @@ const Contact = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-8"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">
+          <h2 className="text-3xl md:text-4xl font-bold mb-3 text-white">
             Let's Build Something <span className="text-gradient">Amazing</span>
           </h2>
-          <p className="text-gray-300 text-lg max-w-2xl mx-auto">
+          <p className="text-gray-300 text-base max-w-xl mx-auto">
             Have a project in mind? Let's discuss how we can bring your mobile app
             vision to life with Flutter
           </p>
         </motion.div>
 
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-3xl mx-auto">
           <motion.div
             style={{ opacity }}
             initial={{ opacity: 0, y: 30 }}
@@ -104,12 +84,12 @@ const Contact = () => {
           >
             <Card className="bg-white/10 backdrop-blur-xl border-white/20 shadow-2xl shadow-purple-500/20 overflow-hidden">
               <CardContent className="p-0">
-                <div className="grid md:grid-cols-2">
+                <div className="grid grid-cols-1">
                   {/* Contact Info Side */}
-                  <div className="p-8 md:p-12 bg-gradient-to-br from-purple-900/50 to-indigo-900/50 flex flex-col justify-between">
+                  <div className="p-6 md:p-8 bg-gradient-to-br from-purple-900/50 to-indigo-900/50 flex flex-col justify-between">
                     <div>
-                      <h3 className="text-2xl font-bold mb-6 text-white">Get in Touch</h3>
-                      <p className="text-purple-200 mb-8">
+                      <h3 className="text-xl font-bold mb-4 text-white">Get in Touch</h3>
+                      <p className="text-purple-200 mb-6 text-sm">
                         I'm always open to discussing new projects, creative ideas or opportunities to be part of your visions.
                       </p>
 
@@ -119,12 +99,12 @@ const Contact = () => {
                           whileHover={{ x: 5 }}
                           transition={{ duration: 0.2 }}
                         >
-                          <div className="p-3 rounded-lg bg-cyan-500/20">
-                            <Mail className="w-6 h-6 text-cyan-400" />
+                          <div className="p-2.5 rounded-lg bg-cyan-500/20">
+                            <Mail className="w-5 h-5 text-cyan-400" />
                           </div>
                           <div>
-                            <h4 className="font-semibold mb-1 text-white">Email</h4>
-                            <p className="text-purple-200">hello@flutterdev.com</p>
+                            <h4 className="font-semibold mb-1 text-white text-sm">Email</h4>
+                            <p className="text-purple-200 text-sm">sobahannan654@gmail.com</p>
                           </div>
                         </motion.div>
 
@@ -133,105 +113,47 @@ const Contact = () => {
                           whileHover={{ x: 5 }}
                           transition={{ duration: 0.2 }}
                         >
-                          <div className="p-3 rounded-lg bg-pink-500/20">
-                            <MessageSquare className="w-6 h-6 text-pink-400" />
+                          <div className="p-2.5 rounded-lg bg-pink-500/20">
+                            <MessageSquare className="w-5 h-5 text-pink-400" />
                           </div>
                           <div>
-                            <h4 className="font-semibold mb-1 text-white">Let's Chat</h4>
-                            <p className="text-purple-200">Available for freelance projects</p>
+                            <h4 className="font-semibold mb-1 text-white text-sm">Let's Chat</h4>
+                            <p className="text-purple-200 text-sm">Available for freelance projects</p>
                           </div>
                         </motion.div>
                       </div>
                     </div>
 
                     <div className="mt-12">
-                      <p className="text-sm text-purple-200 mb-4">
+                      <p className="text-xs text-purple-200 mb-3">
                         Follow me for more Flutter content
                       </p>
                       <div className="flex gap-3">
-                        {["GitHub", "LinkedIn", "Twitter"].map((platform) => (
-                          <motion.button
-                            key={platform}
-                            className="px-4 py-2 rounded-lg bg-white/10 hover:bg-cyan-500 hover:text-white transition-colors text-sm font-medium text-purple-100 border border-white/20"
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                          >
-                            {platform}
-                          </motion.button>
-                        ))}
+                        <motion.a
+                          href="https://github.com/MuhammadSoban0"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-cyan-500 hover:text-white transition-colors text-xs font-medium text-purple-100 border border-white/20 flex items-center gap-2"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          <Github className="w-4 h-4" /> GitHub
+                        </motion.a>
+                        <motion.a
+                          href="https://www.linkedin.com/in/muhammad-soban-856bab2a0?utm_source=share_via&utm_content=profile&utm_medium=member_android"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-cyan-500 hover:text-white transition-colors text-xs font-medium text-purple-100 border border-white/20 flex items-center gap-2"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          <Linkedin className="w-4 h-4" /> LinkedIn
+                        </motion.a>
                       </div>
                     </div>
                   </div>
 
-                  {/* Contact Form Side */}
-                  <div className="p-8 md:p-12 bg-white/5">
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                      <div className="space-y-2">
-                        <label htmlFor="name" className="text-sm font-medium text-purple-100">Name</label>
-                        <div className="relative">
-                          <User className="absolute left-3 top-3 w-5 h-5 text-purple-300" />
-                          <Input
-                            id="name"
-                            placeholder="Your Name"
-                            className="pl-10 bg-white/5 border-white/10 text-white placeholder:text-purple-300/50 focus:border-cyan-400 focus:ring-cyan-400/20"
-                            required
-                          />
-                        </div>
-                      </div>
-
-                      <div className="space-y-2">
-                        <label htmlFor="email" className="text-sm font-medium text-purple-100">Email</label>
-                        <div className="relative">
-                          <AtSign className="absolute left-3 top-3 w-5 h-5 text-purple-300" />
-                          <Input
-                            id="email"
-                            type="email"
-                            placeholder="your@email.com"
-                            className="pl-10 bg-white/5 border-white/10 text-white placeholder:text-purple-300/50 focus:border-cyan-400 focus:ring-cyan-400/20"
-                            required
-                          />
-                        </div>
-                      </div>
-
-                      <div className="space-y-2">
-                        <label htmlFor="message" className="text-sm font-medium text-purple-100">Message</label>
-                        <div className="relative">
-                          <MessageCircle className="absolute left-3 top-3 w-5 h-5 text-purple-300" />
-                          <Textarea
-                            id="message"
-                            placeholder="Tell me about your project..."
-                            className="pl-10 min-h-[120px] bg-white/5 border-white/10 text-white placeholder:text-purple-300/50 focus:border-cyan-400 focus:ring-cyan-400/20"
-                            required
-                          />
-                        </div>
-                      </div>
-
-                      <motion.div
-                        initial={{ scale: 0.96 }}
-                        whileInView={{ scale: [1, 1.05, 0.98, 1] }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8, ease: "easeOut" }}
-                      >
-                        <Button
-                          type="submit"
-                          disabled={isSubmitting}
-                          className="w-full bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-400 hover:to-purple-400 text-white font-semibold h-12 shadow-lg shadow-purple-500/30 transition-all duration-300"
-                        >
-                          {isSubmitting ? (
-                            <motion.div
-                              animate={{ rotate: 360 }}
-                              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                              className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
-                            />
-                          ) : (
-                            <>
-                              Send Message <Send className="w-4 h-4 ml-2" />
-                            </>
-                          )}
-                        </Button>
-                      </motion.div>
-                    </form>
-                  </div>
+                  {/* Removed direct message form */}
                 </div>
               </CardContent>
             </Card>

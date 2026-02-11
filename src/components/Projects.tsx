@@ -5,33 +5,67 @@ import { useRef, useState, useEffect } from "react";
 import React from "react";
 import profileImage from "@/assets/profile.png";
  
-import chateo_1 from "../../Projects_imgs/Chateo/Screenshot_20260205_123456.jpg";
-import chateo_2 from "../../Projects_imgs/Chateo/Screenshot_20260205_123510.jpg";
-import easy_1 from "../../Projects_imgs/Easy Credit Repairs/Screenshot_20260205_123249.jpg";
-import easy_2 from "../../Projects_imgs/Easy Credit Repairs/Screenshot_20260205_123251.jpg";
-import easy_3 from "../../Projects_imgs/Easy Credit Repairs/Screenshot_20260205_123256.jpg";
-import easy_4 from "../../Projects_imgs/Easy Credit Repairs/Screenshot_20260205_123305.jpg";
-import edm_1 from "../../Projects_imgs/Every Day Muslim/Screenshot_20260205_122933.jpg";
-import trivia_1 from "../../Projects_imgs/Islamic Trivia/Screenshot_20260205_123414_Dev Islamic Trivia.jpg";
-import trivia_2 from "../../Projects_imgs/Islamic Trivia/Screenshot_20260205_123419_Dev Islamic Trivia.jpg";
-import trivia_3 from "../../Projects_imgs/Islamic Trivia/Screenshot_20260205_123423_Dev Islamic Trivia.jpg";
-import trivia_4 from "../../Projects_imgs/Islamic Trivia/Screenshot_20260205_123432_Dev Islamic Trivia.jpg";
-import trivia_5 from "../../Projects_imgs/Islamic Trivia/Screenshot_20260205_123439_Dev Islamic Trivia.jpg";
-import num_1 from "../../Projects_imgs/Numerology WIzard/Screenshot_20260205_123217.jpg";
-import num_2 from "../../Projects_imgs/Numerology WIzard/Screenshot_20260205_123220.jpg";
-import num_3 from "../../Projects_imgs/Numerology WIzard/Screenshot_20260205_123228_Google Play Store.jpg";
-import num_4 from "../../Projects_imgs/Numerology WIzard/Screenshot_20260205_123231.jpg";
-import num_5 from "../../Projects_imgs/Numerology WIzard/Screenshot_20260205_123239.jpg";
-import rbb_1 from "../../Projects_imgs/RBB App/Screenshot_20260205_123132.jpg";
-import rbb_2 from "../../Projects_imgs/RBB App/Screenshot_20260205_123138.jpg";
-import rbb_3 from "../../Projects_imgs/RBB App/Screenshot_20260205_123146.jpg";
-import rbb_4 from "../../Projects_imgs/RBB App/Screenshot_20260205_123152.jpg";
-import rbb_5 from "../../Projects_imgs/RBB App/Screenshot_20260205_123203.jpg";
-import salon_1 from "../../Projects_imgs/Salonary/Screenshot_20260205_123339.jpg";
-import salon_2 from "../../Projects_imgs/Salonary/Screenshot_20260205_123344.jpg";
-import salon_3 from "../../Projects_imgs/Salonary/Screenshot_20260205_123348.jpg";
-import salon_4 from "../../Projects_imgs/Salonary/Screenshot_20260205_123358.jpg";
-import salon_5 from "../../Projects_imgs/Salonary/Screenshot_20260205_123403.jpg";
+const sortModules = (modules: Record<string, { default: string }>) => {
+  const entries = Object.entries(modules).map(([path, mod]) => ({ path, src: mod.default }));
+  entries.sort((a, b) => {
+    const nameA = a.path.split("/").pop() ?? "";
+    const nameB = b.path.split("/").pop() ?? "";
+    const numA = parseInt(nameA);
+    const numB = parseInt(nameB);
+    if (!isNaN(numA) && !isNaN(numB)) return numA - numB;
+    return nameA.localeCompare(nameB);
+  });
+  return entries.map((e) => e.src as string);
+};
+
+const imgsEveryDayMuslim = sortModules(
+  import.meta.glob("../../Projects_imgs/Every Day Muslim/*.{jpg,jpeg,png,webp}", { eager: true }) as Record<
+    string,
+    { default: string }
+  >,
+);
+const imgsQuranUrdu = sortModules(
+  import.meta.glob("../../Projects_imgs/Urdu Audio Quran Only/*.{jpg,jpeg,png,webp}", { eager: true }) as Record<
+    string,
+    { default: string }
+  >,
+);
+const imgsIslamicTrivia = sortModules(
+  import.meta.glob("../../Projects_imgs/Islamic Trivia/*.{jpg,jpeg,png,webp}", { eager: true }) as Record<
+    string,
+    { default: string }
+  >,
+);
+const imgsRBB = sortModules(
+  import.meta.glob("../../Projects_imgs/RBB App/*.{jpg,jpeg,png,webp}", { eager: true }) as Record<
+    string,
+    { default: string }
+  >,
+);
+const imgsNumerology = sortModules(
+  import.meta.glob("../../Projects_imgs/Numerology WIzard/*.{jpg,jpeg,png,webp}", { eager: true }) as Record<
+    string,
+    { default: string }
+  >,
+);
+const imgsSalonary = sortModules(
+  import.meta.glob("../../Projects_imgs/Salonary/*.{jpg,jpeg,png,webp}", { eager: true }) as Record<
+    string,
+    { default: string }
+  >,
+);
+const imgsChateo = sortModules(
+  import.meta.glob("../../Projects_imgs/Chateo/*.{jpg,jpeg,png,webp}", { eager: true }) as Record<
+    string,
+    { default: string }
+  >,
+);
+const imgsEasyCredit = sortModules(
+  import.meta.glob("../../Projects_imgs/Easy Credit Repairs/*.{jpg,jpeg,png,webp}", { eager: true }) as Record<
+    string,
+    { default: string }
+  >,
+);
 
 interface ProjectCardProps {
   title: string;
@@ -66,7 +100,7 @@ const ProjectCard = ({ title, description, tags, links, cover, screenshots, colo
     }
     if (screenshots.length <= 1) return;
     const startDelay = Math.floor(Math.random() * 800);
-    const stepInterval = 5000 + Math.floor(Math.random() * 4000);
+    const stepInterval = 3000 + Math.floor(Math.random() * 2000);
     const start = window.setTimeout(() => {
       setCurrentIndex((i) => (i + 1) % screenshots.length);
       intervalRef.current = window.setInterval(() => {
@@ -122,18 +156,27 @@ const ProjectCard = ({ title, description, tags, links, cover, screenshots, colo
           </div>
 
           <div className="absolute inset-x-0 bottom-0 z-10">
-            <div className="rounded-3xl bg-black/40 backdrop-blur-xl border border-white/15 shadow-2xl p-4 sm:p-5 transition-colors duration-300 group-hover:bg-black/55">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-              >
+            <div className="rounded-3xl bg-black/40 backdrop-blur-xl border border-white/15 shadow-2xl p-4 sm:p-5">
                 <div className="mb-2">
-                  <h3 className="text-lg font-semibold text-white">{title}</h3>
+                  <motion.h3
+                    className="text-lg font-semibold text-white"
+                    initial={{ opacity: 0, y: 12 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, ease: "easeOut" }}
+                  >
+                    {title}
+                  </motion.h3>
                 </div>
-                <p className="text-white/80 text-xs sm:text-sm mb-3 max-h-12 overflow-hidden">
+                <motion.p
+                  className="text-white/80 text-xs sm:text-sm mb-3 max-h-12 overflow-hidden"
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, ease: "easeOut", delay: 0.05 }}
+                >
                   {description}
-                </p>
+                </motion.p>
 
                 <div className="flex flex-wrap gap-1.5 mb-4">
                   {tags.map((tag) => (
@@ -146,27 +189,36 @@ const ProjectCard = ({ title, description, tags, links, cover, screenshots, colo
                   ))}
                 </div>
 
-                <div className="grid grid-cols-2 gap-2 items-center mt-2 pt-2 border-t border-white/10">
-                  <Button
-                    size="sm"
-                    className="min-w-0 w-full bg-white/10 text-white hover:bg-white/20 border border-white/20 px-2 py-2 text-xs"
-                    asChild
-                  >
-                    <a href={links.appStore} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-1.5">
-                      <Apple className="w-3.5 h-3.5" /> App Store
-                    </a>
-                  </Button>
-                  <Button
-                    size="sm"
-                    className="min-w-0 w-full bg-white/10 text-white hover:bg-white/20 border border-white/20 px-2 py-2 text-xs"
-                    asChild
-                  >
-                    <a href={links.playStore} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-1.5">
-                      <Play className="w-3.5 h-3.5" /> Google Play
-                    </a>
-                  </Button>
-                </div>
-              </motion.div>
+                <motion.div
+                  className={`grid ${links.appStore && links.playStore ? "grid-cols-2" : "grid-cols-1"} gap-2 items-center mt-2 pt-2 border-t border-white/10`}
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, ease: "easeOut", delay: 0.1 }}
+                >
+                  {links.appStore && (
+                    <Button
+                      size="sm"
+                      className="min-w-0 w-full bg-white/10 text-white hover:bg-white/20 border border-white/20 px-2 py-2 text-xs"
+                      asChild
+                    >
+                      <a href={links.appStore} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-1.5">
+                        <Apple className="w-3.5 h-3.5" /> App Store
+                      </a>
+                    </Button>
+                  )}
+                  {links.playStore && (
+                    <Button
+                      size="sm"
+                      className="min-w-0 w-full bg-white/10 text-white hover:bg-white/20 border border-white/20 px-2 py-2 text-xs"
+                      asChild
+                    >
+                      <a href={links.playStore} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-1.5">
+                        <Play className="w-3.5 h-3.5" /> Google Play
+                      </a>
+                    </Button>
+                  )}
+                </motion.div>
             </div>
           </div>
         </div>
@@ -185,66 +237,90 @@ const ProjectCard = ({ title, description, tags, links, cover, screenshots, colo
 
 const projects = [
   {
-    title: "RBB App",
-    description: "Banking and finance app with account management and secure transactions.",
-    tags: ["Flutter", "Security", "Finance"],
-    links: { appStore: "#", playStore: "#" },
-    cover: rbb_1,
-    screenshots: [rbb_1, rbb_2, rbb_3, rbb_4, rbb_5],
-    color: "from-blue-500 to-cyan-600",
-  },
-  {
-    title: "Salonary",
-    description: "Salon management: appointments, staff, and inventory streamlined.",
-    tags: ["Flutter", "Firebase", "Stripe"],
-    links: { appStore: "#", playStore: "#" },
-    cover: salon_1,
-    screenshots: [salon_1, salon_2, salon_3, salon_4, salon_5],
-    color: "from-pink-500 to-purple-600",
-  },
-  {
-    title: "Every Day Muslim",
+    title: "Everyday Muslim",
     description: "Prayer times, Qibla, and duas with a clean interface.",
     tags: ["Flutter", "REST API", "Location"],
-    links: { appStore: "#", playStore: "#" },
-    cover: edm_1,
-    screenshots: [edm_1],
+    links: {
+      appStore: "https://apps.apple.com/us/iphone/search?term=Everyday%20Muslim",
+      playStore: "https://play.google.com/store/search?q=Every%20Day%20uslim&c=apps&hl=en",
+    },
+    cover: imgsEveryDayMuslim[0],
+    screenshots: imgsEveryDayMuslim,
     color: "from-green-500 to-emerald-600",
+  },
+  {
+    title: "Quran Urdu Audio Translation",
+    description: "Listen to Quran with Urdu audio translation.",
+    tags: ["Flutter", "Audio", "Quran"],
+    links: {
+      appStore: "https://apps.apple.com/us/app/quran-urdu-audio-translation/id1574906752",
+      playStore: "https://play.google.com/store/apps/details?id=com.quran_only_urdu_audio&hl=en",
+    },
+    cover: imgsQuranUrdu[0],
+    screenshots: imgsQuranUrdu,
+    color: "from-teal-500 to-emerald-600",
   },
   {
     title: "Islamic Trivia",
     description: "Quiz app with categories and leaderboards.",
     tags: ["Flutter", "Firebase", "AdMob"],
-    links: { appStore: "#", playStore: "#" },
-    cover: trivia_1,
-    screenshots: [trivia_1, trivia_2, trivia_3, trivia_4, trivia_5],
+    links: {
+      appStore: "https://apps.apple.com/pk/iphone/search?term=Islamic%20Trivia",
+      playStore: "https://play.google.com/store/apps/details?id=com.umratech.islamic_trivia&hl=en",
+    },
+    cover: imgsIslamicTrivia[0],
+    screenshots: imgsIslamicTrivia,
     color: "from-emerald-500 to-teal-600",
+  },
+  {
+    title: "RBB App",
+    description: "Banking and finance app with account management and secure transactions.",
+    tags: ["Flutter", "Security", "Finance"],
+    links: {
+      appStore: "https://apps.apple.com/pk/app/rbb-toolbox/id6739781109",
+      playStore: "https://play.google.com/store/apps/details?id=com.app.rbb_app&hl=en",
+    },
+    cover: imgsRBB[0],
+    screenshots: imgsRBB,
+    color: "from-blue-500 to-cyan-600",
   },
   {
     title: "Numerology Wizard",
     description: "Numerology calculations and insights with shareable results.",
     tags: ["Flutter", "Charts", "Local DB"],
-    links: { appStore: "#", playStore: "#" },
-    cover: num_1,
-    screenshots: [num_1, num_2, num_3, num_4, num_5],
+    links: {
+      appStore: "",
+      playStore: "https://play.google.com/store/apps/details?id=com.app.numerology_wizard&pcampaignid=web_share",
+    },
+    cover: imgsNumerology[0],
+    screenshots: imgsNumerology,
     color: "from-indigo-500 to-purple-600",
+  },
+  {
+    title: "Salonary",
+    description: "Salon management: appointments, staff, and inventory streamlined.",
+    tags: ["Flutter", "Firebase", "Stripe"],
+    links: { appStore: "", playStore: "" },
+    cover: imgsSalonary[0],
+    screenshots: imgsSalonary,
+    color: "from-pink-500 to-purple-600",
   },
   {
     title: "Chateo",
     description: "Real-time chat with channels, media sharing, and notifications.",
     tags: ["Flutter", "Socket.io", "Push"],
-    links: { appStore: "#", playStore: "#" },
-    cover: chateo_1,
-    screenshots: [chateo_1, chateo_2],
+    links: { appStore: "", playStore: "" },
+    cover: imgsChateo[0],
+    screenshots: imgsChateo,
     color: "from-sky-500 to-blue-600",
   },
   {
     title: "Easy Credit Repairs",
     description: "Credit repair workflow with guidance and tracking.",
     tags: ["Flutter", "Forms", "Cloud"],
-    links: { appStore: "#", playStore: "#" },
-    cover: easy_1,
-    screenshots: [easy_1, easy_2, easy_3, easy_4],
+    links: { appStore: "", playStore: "" },
+    cover: imgsEasyCredit[0],
+    screenshots: imgsEasyCredit,
     color: "from-orange-500 to-amber-600",
   },
 ];

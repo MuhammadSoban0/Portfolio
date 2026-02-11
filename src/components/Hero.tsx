@@ -183,16 +183,31 @@ const Hero = () => {
               className="flex gap-6 justify-center lg:justify-start mt-8"
               variants={itemVariants}
             >
-              {[Github, Linkedin, Mail].map((Icon, index) => (
-                <motion.a
-                  key={index}
-                  href="#"
-                  whileHover={{ y: -5, color: "hsl(var(--accent))" }}
-                  className="text-muted-foreground transition-colors"
-                >
-                  <Icon className="w-6 h-6" />
-                </motion.a>
-              ))}
+              <motion.a
+                href="https://github.com/MuhammadSoban0"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ y: -5, color: "hsl(var(--accent))" }}
+                className="text-muted-foreground transition-colors"
+              >
+                <Github className="w-6 h-6" />
+              </motion.a>
+              <motion.a
+                href="https://www.linkedin.com/in/muhammad-soban-856bab2a0?utm_source=share_via&utm_content=profile&utm_medium=member_android"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ y: -5, color: "hsl(var(--accent))" }}
+                className="text-muted-foreground transition-colors"
+              >
+                <Linkedin className="w-6 h-6" />
+              </motion.a>
+              <motion.a
+                href="mailto:sobahannan654@gmail.com"
+                whileHover={{ y: -5, color: "hsl(var(--accent))" }}
+                className="text-muted-foreground transition-colors"
+              >
+                <Mail className="w-6 h-6" />
+              </motion.a>
             </motion.div>
           </motion.div>
 
