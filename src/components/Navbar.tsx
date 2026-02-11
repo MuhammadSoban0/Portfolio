@@ -139,13 +139,18 @@ const Navbar = () => {
                 </motion.div>
               </div>
 
-              {/* Mobile Menu Button */}
-              <button
-                className={`md:hidden ${isScrolled ? "text-black" : "text-white"} dark:text-white`}
-                onClick={() => setIsMobileMenuOpen(true)}
-              >
-                <Menu className="w-6 h-6" />
-              </button>
+              {/* Mobile Controls */}
+              <div className="flex items-center gap-3">
+                <div className="md:hidden">
+                  <ThemeToggle />
+                </div>
+                <button
+                  className={`md:hidden ${isScrolled ? "text-black" : "text-white"} dark:text-white`}
+                  onClick={() => setIsMobileMenuOpen(true)}
+                >
+                  <Menu className="w-6 h-6" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -202,9 +207,7 @@ const Navbar = () => {
                     Hire Me
                   </Button>
                 </motion.div>
-                <div className="mt-6">
-                  <ThemeToggle />
-                </div>
+                
               </div>
             </div>
           </motion.div>
