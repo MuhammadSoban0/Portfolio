@@ -82,31 +82,27 @@ interface ProjectCardProps {
 }
 
 const ProjectCard = ({ title, description, tags, links, cover, screenshots, color, cardIndex = 0 }: ProjectCardProps) => {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: cardRef,
-    offset: ["start end", "end start"],
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], [50, -50]);
-  const rotateX = useTransform(scrollYProgress, [0, 0.5, 1], [15, 0, -15]);
-  const rotateY = useTransform(scrollYProgress, [0, 0.5, 1], [-10, 0, 10]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const intervalRef = useRef<number | null>(null);
+  
   useEffect(() => {
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
     }
     if (screenshots.length <= 1) return;
-    const startDelay = Math.floor(Math.random() * 800);
-    const stepInterval = 3000 + Math.floor(Math.random() * 2000);
+    
+    // Dynamic timing with slight randomization for more natural feel
+    const startDelay = Math.floor(Math.random() * 1000) + 500; // 0.5-1.5s initial delay
+    const stepInterval = 3500 + Math.floor(Math.random() * 1500); // 3.5-5s intervals
+    
     const start = window.setTimeout(() => {
       setCurrentIndex((i) => (i + 1) % screenshots.length);
       intervalRef.current = window.setInterval(() => {
         setCurrentIndex((i) => (i + 1) % screenshots.length);
       }, stepInterval);
     }, startDelay);
+    
     return () => {
       clearTimeout(start);
       if (intervalRef.current) {
@@ -117,20 +113,13 @@ const ProjectCard = ({ title, description, tags, links, cover, screenshots, colo
 
   return (
     <motion.div
-      ref={cardRef}
-      style={{
-        y,
-        rotateX,
-        rotateY,
-        transformStyle: "preserve-3d",
-      }}
       className="group relative"
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
     >
-      <div className="relative mx-auto w-[280px] h-[580px] bg-black rounded-[3rem] border-[8px] border-gray-900 shadow-2xl overflow-hidden transform transition-transform duration-500 group-hover:scale-105">
+      <div className="relative mx-auto w-[280px] h-[580px] bg-black rounded-[3rem] border-[8px] border-gray-900 shadow-2xl overflow-hidden">
         {/* Phone Notch */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-black rounded-b-2xl z-20"></div>
 
@@ -197,26 +186,24 @@ const ProjectCard = ({ title, description, tags, links, cover, screenshots, colo
                   transition={{ duration: 0.4, ease: "easeOut", delay: 0.1 }}
                 >
                   {links.appStore && (
-                    <Button
-                      size="sm"
-                      className="min-w-0 w-full bg-white/10 text-white hover:bg-white/20 border border-white/20 px-2 py-2 text-xs"
-                      asChild
+                    <a
+                      href={links.appStore}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-1.5 min-w-0 w-full bg-white/10 text-white hover:bg-white/20 border border-white/20 px-2 py-2 text-xs rounded-md transition-colors duration-200 font-medium"
                     >
-                      <a href={links.appStore} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-1.5">
-                        <Apple className="w-3.5 h-3.5" /> App Store
-                      </a>
-                    </Button>
+                      <Apple className="w-3.5 h-3.5" /> App Store
+                    </a>
                   )}
                   {links.playStore && (
-                    <Button
-                      size="sm"
-                      className="min-w-0 w-full bg-white/10 text-white hover:bg-white/20 border border-white/20 px-2 py-2 text-xs"
-                      asChild
+                    <a
+                      href={links.playStore}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-1.5 min-w-0 w-full bg-white/10 text-white hover:bg-white/20 border border-white/20 px-2 py-2 text-xs rounded-md transition-colors duration-200 font-medium"
                     >
-                      <a href={links.playStore} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-1.5">
-                        <Play className="w-3.5 h-3.5" /> Google Play
-                      </a>
-                    </Button>
+                      <Play className="w-3.5 h-3.5" /> Google Play
+                    </a>
                   )}
                 </motion.div>
             </div>
@@ -326,25 +313,12 @@ const projects = [
 ];
 
 const Projects = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
-
   return (
-    <section id="projects" ref={sectionRef} className="py-20 bg-background relative overflow-hidden">
-      {/* Background Elements */}
+    <section id="projects" className="py-20 bg-background relative overflow-hidden">
+      {/* Simplified background elements */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/5 via-background to-background" />
-      <motion.div
-        style={{ y }}
-        className="absolute top-0 left-0 w-full h-full opacity-30 pointer-events-none"
-      >
-        <div className="absolute top-20 left-10 w-72 h-72 bg-purple-500/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl" />
-      </motion.div>
+      <div className="absolute top-20 left-10 w-72 h-72 bg-purple-500/20 rounded-full blur-3xl" />
+      <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl" />
 
       <div className="container mx-auto px-4 relative z-10">
         <motion.div

@@ -72,26 +72,11 @@ const skillCategories = [
 ];
 
 const Skills = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-
-  const y1 = useTransform(scrollYProgress, [0, 1], [100, -100]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [-100, 100]);
-
   return (
-    <section id="skills" ref={sectionRef} className="relative py-20 bg-gradient-to-b from-background to-muted/30 overflow-hidden">
-      {/* Parallax Background Elements */}
-      <motion.div
-        style={{ y: y1 }}
-        className="absolute top-20 left-0 w-72 h-72 bg-accent/10 rounded-full blur-3xl"
-      />
-      <motion.div
-        style={{ y: y2 }}
-        className="absolute bottom-20 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl"
-      />
+    <section id="skills" className="relative py-20 bg-gradient-to-b from-background to-muted/30 overflow-hidden">
+      {/* Simplified Background Elements */}
+      <div className="absolute top-20 left-0 w-72 h-72 bg-accent/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-20 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
 
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
@@ -168,10 +153,7 @@ const Skills = () => {
                           transition={{ duration: 0.4, delay: 0.05 * skillIndex + (index * 0.1) }}
                           className="flex items-center text-muted-foreground text-sm"
                         >
-                          <motion.span
-                            className={`w-2 h-2 rounded-full bg-gradient-to-br ${category.color} mr-3 flex-shrink-0`}
-                            whileHover={{ scale: 1.5 }}
-                          />
+                          <span className={`w-2 h-2 rounded-full bg-gradient-to-br ${category.color} mr-3 flex-shrink-0`} />
                           {skill}
                         </motion.li>
                       ))}

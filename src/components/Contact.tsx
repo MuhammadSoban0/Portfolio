@@ -4,57 +4,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import React from "react";
 
 const Contact = () => {
-  const sectionRef = React.useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
-  const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
-
-
   return (
-    <section id="contact" ref={sectionRef} className="py-12 bg-gradient-to-br from-violet-950 via-purple-900 to-fuchsia-900 relative overflow-hidden">
-      {/* Background decoration with parallax */}
+    <section id="contact" className="py-12 bg-gradient-to-br from-violet-950 via-purple-900 to-fuchsia-900 relative overflow-hidden">
+      {/* Simplified background decoration */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div
-          style={{ y }}
-          className="absolute -top-20 -right-20 w-96 h-96 bg-cyan-500/30 rounded-full blur-3xl"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.5, 0.3],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-        <motion.div
-          style={{ y: useTransform(scrollYProgress, [0, 1], [-100, 100]) }}
-          className="absolute bottom-20 left-10 w-64 h-64 bg-pink-500/30 rounded-full blur-3xl"
-          animate={{
-            scale: [1.2, 1, 1.2],
-            opacity: [0.2, 0.4, 0.2],
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-        <motion.div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-violet-500/20 rounded-full blur-3xl"
-          animate={{
-            rotate: [0, 360],
-          }}
-          transition={{
-            duration: 30,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-        />
+        <div className="absolute -top-20 -right-20 w-96 h-96 bg-cyan-500/30 rounded-full blur-3xl opacity-30" />
+        <div className="absolute bottom-20 left-10 w-64 h-64 bg-pink-500/30 rounded-full blur-3xl opacity-20" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-violet-500/20 rounded-full blur-3xl opacity-20" />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
@@ -76,7 +32,6 @@ const Contact = () => {
 
         <div className="max-w-3xl mx-auto">
           <motion.div
-            style={{ opacity }}
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}

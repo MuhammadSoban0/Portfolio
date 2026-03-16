@@ -1,62 +1,9 @@
-import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import profileImage from "@/assets/profile.png";
-import React, { useEffect, useRef } from "react";
 
 const Hero = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  const springConfig = { damping: 25, stiffness: 150 };
-  const springX = useSpring(mouseX, springConfig);
-  const springY = useSpring(mouseY, springConfig);
-
-  const cta1X = useMotionValue(0);
-  const cta1Y = useMotionValue(0);
-  const cta2X = useMotionValue(0);
-  const cta2Y = useMotionValue(0);
-  const cta1SpringX = useSpring(cta1X, springConfig);
-  const cta1SpringY = useSpring(cta1Y, springConfig);
-  const cta2SpringX = useSpring(cta2X, springConfig);
-  const cta2SpringY = useSpring(cta2Y, springConfig);
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const { clientX, clientY } = e;
-    const { innerWidth, innerHeight } = window;
-    const x = clientX / innerWidth - 0.5;
-    const y = clientY / innerHeight - 0.5;
-    mouseX.set(x * 20); // Parallax intensity
-    mouseY.set(y * 20);
-  };
-
-  const handleMagnetMove1 = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const dx = e.clientX - (rect.left + rect.width / 2);
-    const dy = e.clientY - (rect.top + rect.height / 2);
-    const fx = Math.max(-12, Math.min(12, dx * 0.15));
-    const fy = Math.max(-12, Math.min(12, dy * 0.15));
-    cta1X.set(fx);
-    cta1Y.set(fy);
-  };
-  const handleMagnetLeave1 = () => {
-    cta1X.set(0);
-    cta1Y.set(0);
-  };
-  const handleMagnetMove2 = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const dx = e.clientX - (rect.left + rect.width / 2);
-    const dy = e.clientY - (rect.top + rect.height / 2);
-    const fx = Math.max(-12, Math.min(12, dx * 0.15));
-    const fy = Math.max(-12, Math.min(12, dy * 0.15));
-    cta2X.set(fx);
-    cta2Y.set(fy);
-  };
-  const handleMagnetLeave2 = () => {
-    cta2X.set(0);
-    cta2Y.set(0);
-  };
   // Text reveal animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -85,20 +32,12 @@ const Hero = () => {
   return (
     <section
       id="hero"
-      ref={containerRef}
-      onMouseMove={handleMouseMove}
       className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background pt-20"
     >
-      {/* Animated background elements with Parallax */}
+      {/* Simplified background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div
-          style={{ x: springX, y: springY }}
-          className="absolute top-20 left-10 w-72 h-72 bg-golden/10 rounded-full blur-[100px]"
-        />
-        <motion.div
-          style={{ x: useTransform(springX, (value) => -value), y: useTransform(springY, (value) => -value) }}
-          className="absolute bottom-20 right-10 w-96 h-96 bg-accent/10 rounded-full blur-[100px]"
-        />
+        <div className="absolute top-20 left-10 w-72 h-72 bg-golden/10 rounded-full blur-[100px]" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/10 rounded-full blur-[100px]" />
         <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
       </div>
 
@@ -141,41 +80,21 @@ const Hero = () => {
               className="flex flex-wrap gap-4 justify-center lg:justify-start pb-8 lg:pb-0"
               variants={itemVariants}
             >
-              <motion.div
-                initial={{ scale: 0.96 }}
-                whileInView={{ scale: [1, 1.05, 0.98, 1] }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                style={{ x: cta1SpringX, y: cta1SpringY }}
-                onMouseMove={handleMagnetMove1}
-                onMouseLeave={handleMagnetLeave1}
+              <Button
+                size="lg"
+                className="bg-accent hover:bg-accent/90 text-navy font-bold px-8 h-12 rounded-full shadow-glow hover:scale-105 transition-all duration-300"
+                onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
               >
-                <Button
-                  size="lg"
-                  className="bg-accent hover:bg-accent/90 text-navy font-bold px-8 h-12 rounded-full shadow-glow hover:scale-105 transition-all duration-300"
-                  onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
-                >
-                  View My Work
-                </Button>
-              </motion.div>
-              <motion.div
-                initial={{ scale: 0.96 }}
-                whileInView={{ scale: [1, 1.05, 0.98, 1] }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
-                style={{ x: cta2SpringX, y: cta2SpringY }}
-                onMouseMove={handleMagnetMove2}
-                onMouseLeave={handleMagnetLeave2}
+                View My Work
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-2 border-accent/50 text-foreground hover:bg-accent/10 hover:border-accent h-12 rounded-full px-8 hover:scale-105 transition-all duration-300"
+                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
               >
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-2 border-accent/50 text-foreground hover:bg-accent/10 hover:border-accent h-12 rounded-full px-8 hover:scale-105 transition-all duration-300"
-                  onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-                >
-                  Contact Me
-                </Button>
-              </motion.div>
+                Contact Me
+              </Button>
             </motion.div>
 
             {/* Social Links */}
@@ -214,8 +133,8 @@ const Hero = () => {
           {/* Profile Image */}
           <motion.div
             className="flex-1 flex justify-center lg:justify-end"
-            initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
-            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{
               type: "spring",
               damping: 20,
@@ -224,17 +143,7 @@ const Hero = () => {
             }}
           >
             <div className="relative group">
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-tr from-accent to-purple-500 rounded-full blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-500"
-                animate={{
-                  scale: [1, 1.1, 1],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              />
+              <div className="absolute inset-0 bg-gradient-to-tr from-accent to-purple-500 rounded-full blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
               <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full p-2 border-2 border-white/10 bg-white/5 backdrop-blur-sm">
                 <motion.img
                   src={profileImage}
@@ -245,21 +154,13 @@ const Hero = () => {
                 />
               </div>
 
-              {/* Floating Elements */}
-              <motion.div
-                className="absolute -top-4 -right-4 bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/20 shadow-xl"
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-              >
+              {/* Simplified floating elements */}
+              <div className="absolute -top-4 -right-4 bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/20 shadow-xl">
                 <span className="text-2xl">🚀</span>
-              </motion.div>
-              <motion.div
-                className="absolute -bottom-4 -left-4 bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/20 shadow-xl"
-                animate={{ y: [0, 10, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-              >
+              </div>
+              <div className="absolute -bottom-4 -left-4 bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/20 shadow-xl">
                 <span className="text-2xl">💙</span>
-              </motion.div>
+              </div>
             </div>
           </motion.div>
         </div>
@@ -272,13 +173,9 @@ const Hero = () => {
           transition={{ delay: 1.5, duration: 0.6 }}
           onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
         >
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            className="p-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm hover:bg-accent/20 transition-colors"
-          >
+          <div className="p-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm hover:bg-accent/20 transition-colors">
             <ArrowDown className="w-6 h-6 text-accent" />
-          </motion.div>
+          </div>
         </motion.div>
       </div>
     </section>
