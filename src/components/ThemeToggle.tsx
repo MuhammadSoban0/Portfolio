@@ -15,7 +15,7 @@ const ThemeToggle = () => {
       size="icon"
       aria-label="Toggle theme"
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="rounded-full border border-white/20 hover:bg-white/10 transition-transform duration-150 hover:scale-105 active:scale-95"
+      className="rounded-full border border-white/20 hover:bg-accent hover:text-accent-foreground transition-all duration-150 hover:scale-105 active:scale-95"
     >
       {mounted && (isDark ? <Sun /> : <Moon />)}
     </Button>

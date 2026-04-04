@@ -90,7 +90,7 @@ const Hero = () => {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-2 border-accent/50 text-foreground hover:bg-accent/10 hover:border-accent h-12 rounded-full px-8 hover:scale-105 transition-all duration-300"
+                className="border-2 border-accent/50 text-foreground hover:bg-accent hover:text-white dark:hover:text-white hover:border-accent h-12 rounded-full px-8 hover:scale-105 transition-all duration-300"
                 onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 Contact Me
