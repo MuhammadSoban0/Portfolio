@@ -1,9 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Apple, Play } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
-import React from "react";
-import { profileImageUrl } from "@/data/profile-image";
-import { projectImages, getProjectImages } from '@/data/cloudinary-urls';
+import { getProjectImages } from '@/data/cloudinary-urls';
 
 interface ProjectCardProps {
   title: string;
@@ -232,7 +230,10 @@ const projects = [
     title: "Salonary",
     description: "Salon management: appointments, staff, and inventory streamlined.",
     tags: ["Flutter", "Firebase", "Stripe"],
-    links: { appStore: "", playStore: "" },
+    links: { 
+      appStore: "", 
+      playStore: "https://play.google.com/store/apps/details?id=com.salonary.android&hl=en_US" 
+    },
     projectKey: "salonary",
     color: "from-pink-500 to-purple-600",
   },
@@ -270,18 +271,6 @@ const ProjectsCloudinaryOnly = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <div className="flex justify-center mb-6">
-            <motion.img
-              src={profileImageUrl}
-              alt="Muhammad Soban"
-              className="w-20 h-20 rounded-full object-cover border-4 border-accent/20 shadow-2xl"
-              initial={{ opacity: 0.9, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.3 }}
-            />
-          </div>
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
             Featured <span className="text-gradient">Projects</span>
           </h2>

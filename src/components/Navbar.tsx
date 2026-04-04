@@ -50,7 +50,7 @@ const Navbar = () => {
                 : "bg-transparent"
             }`}
           >
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between w-full">
               <a
                 href="#"
                 onClick={(e) => {
@@ -79,43 +79,45 @@ const Navbar = () => {
                 </div>
               </a>
 
-              {/* Desktop Navigation */}
-              <div className="hidden md:flex items-center gap-8">
-                {navItems.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      scrollToSection(item.href);
-                    }}
-                    className={`text-sm font-medium transition-colors relative group ${
-                      isScrolled
-                        ? "text-foreground hover:text-accent"
-                        : "text-white/90 hover:text-accent"
-                    }`}
-                  >
-                    {item.name}
-                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full" />
-                  </a>
-                ))}
+              {/* Right side - All navigation and controls */}
+              <div className="flex items-center gap-6">
+                {/* Desktop Navigation Links */}
+                <div className="hidden md:flex items-center gap-6">
+                  {navItems.map((item) => (
+                    <a
+                      key={item.name}
+                      href={item.href}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        scrollToSection(item.href);
+                      }}
+                      className={`text-sm font-medium transition-colors relative group ${
+                        isScrolled
+                          ? "text-foreground hover:text-accent"
+                          : "text-foreground hover:text-accent"
+                      }`}
+                    >
+                      {item.name}
+                      <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full" />
+                    </a>
+                  ))}
+                </div>
+
+                {/* Theme Toggle */}
                 <ThemeToggle />
+
+                {/* Hire Me Button - Desktop */}
                 <Button
                   variant="default"
-                  className="bg-accent text-navy hover:bg-accent/90 rounded-full px-6"
+                  className="hidden md:flex bg-accent text-navy hover:bg-accent/90 rounded-full px-6"
                   onClick={() => scrollToSection("#contact")}
                 >
                   Hire Me
                 </Button>
-              </div>
-
-              {/* Mobile Controls */}
-              <div className="flex items-center gap-3">
-                <div className="md:hidden">
-                  <ThemeToggle />
-                </div>
+                
+                {/* Mobile Menu Button */}
                 <button
-                  className={`md:hidden ${isScrolled ? "text-foreground" : "text-white"}`}
+                  className={`md:hidden text-foreground`}
                   onClick={() => setIsMobileMenuOpen(true)}
                 >
                   <Menu className="w-6 h-6" />
