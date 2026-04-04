@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import profileImage from "@/assets/profile.png";
+import { profileImageUrl } from "@/data/profile-image";
 
 const Hero = () => {
   // Text reveal animation variants
@@ -146,7 +146,7 @@ const Hero = () => {
               <div className="absolute inset-0 bg-gradient-to-tr from-accent to-purple-500 rounded-full blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
               <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full p-2 border-2 border-white/10 bg-white/5 backdrop-blur-sm">
                 <motion.img
-                  src={profileImage}
+                  src={profileImageUrl}
                   alt="Flutter Developer Profile"
                   className="w-full h-full rounded-full object-cover border-4 border-accent/20 shadow-2xl"
                   whileHover={{ scale: 1.05 }}

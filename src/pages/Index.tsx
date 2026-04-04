@@ -1,5 +1,5 @@
 import Hero from "@/components/Hero";
-import Projects from "@/components/Projects";
+import ProjectsCloudinaryOnly from "@/components/ProjectsCloudinaryOnly";
 import Skills from "@/components/Skills";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
@@ -15,7 +15,7 @@ const Index = () => {
       <div id="hero">
         <Hero />
       </div>
-      <Projects />
+      <ProjectsCloudinaryOnly />
       <Skills />
       <Testimonials />
       <Contact />

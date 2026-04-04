@@ -1,12 +1,12 @@
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
-import profileIcon from "@/assets/profile.png";
+import { profileImageUrl } from "@/data/profile-image";
 
 const existingIcon = document.querySelector<HTMLLinkElement>("link[rel*='icon']");
 const favicon = existingIcon ?? document.createElement("link");
 favicon.rel = "icon";
-favicon.href = profileIcon;
+favicon.href = profileImageUrl;
 if (!existingIcon) document.head.appendChild(favicon);
 
 const accentVar = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim();
@@ -50,6 +50,6 @@ function setCircularFavicon(src: string) {
   };
 }
 
-setCircularFavicon(profileIcon);
+setCircularFavicon(profileImageUrl);
 
 createRoot(document.getElementById("root")!).render(<App />);

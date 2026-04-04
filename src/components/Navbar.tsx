@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "./ui/button";
-import profileImage from "@/assets/profile.png";
+import { profileImageUrl } from "@/data/profile-image";
 import ThemeToggle from "./ThemeToggle";
 
 const navItems = [
@@ -69,7 +69,7 @@ const Navbar = () => {
                     style={{ background: "linear-gradient(to top right, hsl(var(--accent)), #a855f7)" }}
                   />
                   <motion.img
-                    src={profileImage}
+                    src={profileImageUrl}
                     alt="Profile"
                     className="w-full h-full rounded-full object-cover"
                     whileHover={{ scale: 1.05 }}
@@ -91,8 +91,8 @@ const Navbar = () => {
                     }}
                     className={`text-sm font-medium transition-colors relative group ${
                       isScrolled
-                        ? "text-black/80 dark:text-white/90 hover:text-accent"
-                        : "text-white/80 dark:text-white/90 hover:text-accent"
+                        ? "text-foreground hover:text-accent"
+                        : "text-white/90 hover:text-accent"
                     }`}
                   >
                     {item.name}
@@ -115,7 +115,7 @@ const Navbar = () => {
                   <ThemeToggle />
                 </div>
                 <button
-                  className={`md:hidden ${isScrolled ? "text-black" : "text-white"} dark:text-white`}
+                  className={`md:hidden ${isScrolled ? "text-foreground" : "text-white"}`}
                   onClick={() => setIsMobileMenuOpen(true)}
                 >
                   <Menu className="w-6 h-6" />
