@@ -18,35 +18,65 @@ function setCircularFavicon(src: string) {
   canvas.height = 64;
   const ctx = canvas.getContext("2d")!;
 
-  const grad = ctx.createLinearGradient(0, 64, 64, 0);
-  grad.addColorStop(0, accentColor);
-  grad.addColorStop(1, "#a855f7");
-
-  ctx.beginPath();
-  ctx.arc(32, 32, 30, 0, Math.PI * 2);
-  ctx.lineWidth = 4;
-  ctx.strokeStyle = grad;
-  ctx.stroke();
-
-  ctx.save();
-  ctx.beginPath();
-  ctx.arc(32, 32, 28, 0, Math.PI * 2);
-  ctx.clip();
+  // Clear the canvas with transparent background
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   const img = new Image();
+  img.crossOrigin = "anonymous"; // Handle CORS for external images
   img.src = src;
   img.onload = () => {
-    const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
+    // Create circular clipping path for the entire canvas
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(32, 32, 32, 0, Math.PI * 2);
+    ctx.clip();
+
+    // Fill the circle with a gradient background
+    const grad = ctx.createLinearGradient(0, 0, 64, 64);
+    grad.addColorStop(0, accentColor);
+    grad.addColorStop(1, "#a855f7");
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 64, 64);
+
+    // Draw the profile image to fill the circle
+    const scale = Math.max(64 / img.width, 64 / img.height);
     const w = img.width * scale;
     const h = img.height * scale;
-    const x = (canvas.width - w) / 2;
-    const y = (canvas.height - h) / 2;
+    const x = (64 - w) / 2;
+    const y = (64 - h) / 2;
+    
+    // Apply slight transparency to blend with gradient
+    ctx.globalAlpha = 0.9;
     ctx.drawImage(img, x, y, w, h);
     ctx.restore();
+
+    // Create a subtle border around the circle
+    ctx.beginPath();
+    ctx.arc(32, 32, 31, 0, Math.PI * 2);
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+    ctx.stroke();
+
     favicon.href = canvas.toDataURL("image/png");
   };
   img.onerror = () => {
-    favicon.href = src;
+    // Fallback: create a simple circular favicon with initials
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Create circular background
+    ctx.beginPath();
+    ctx.arc(32, 32, 32, 0, Math.PI * 2);
+    ctx.fillStyle = accentColor;
+    ctx.fill();
+    
+    // Add initials
+    ctx.fillStyle = 'white';
+    ctx.font = 'bold 24px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('MS', 32, 32);
+    
+    favicon.href = canvas.toDataURL("image/png");
   };
 }
 
