@@ -110,7 +110,7 @@ const Navbar = () => {
                 <Button
                   variant="default"
                   className="hidden md:flex bg-accent text-navy hover:bg-accent/90 rounded-full px-6"
-                  onClick={() => scrollToSection("#contact")}
+                  onClick={() => window.open('https://mail.google.com/mail/?view=cm&fs=1&to=sobahannan654@gmail.com&su=Hiring%20Inquiry&body=Hi%20Muhammad%20Soban,%0D%0A%0D%0AI%20would%20like%20to%20discuss%20a%20project%20opportunity%20with%20you.%0D%0A%0D%0ABest%20regards,', '_blank')}
                 >
                   Hire Me
                 </Button>
@@ -174,7 +174,10 @@ const Navbar = () => {
                   <Button
                     size="lg"
                     className="bg-accent text-navy hover:bg-accent/90 rounded-full px-8 text-lg"
-                    onClick={() => scrollToSection("#contact")}
+                    onClick={() => {
+                      window.open('https://mail.google.com/mail/?view=cm&fs=1&to=sobahannan654@gmail.com&su=Hiring%20Inquiry&body=Hi%20Muhammad%20Soban,%0D%0A%0D%0AI%20would%20like%20to%20discuss%20a%20project%20opportunity%20with%20you.%0D%0A%0D%0ABest%20regards,', '_blank');
+                      setIsMobileMenuOpen(false);
+                    }}
                   >
                     Hire Me
                   </Button>

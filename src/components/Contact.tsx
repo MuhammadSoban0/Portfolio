@@ -60,8 +60,12 @@ const Contact = () => {
                           <div>
                             <h4 className="font-semibold mb-1 text-white text-sm">Email</h4>
                             <a
-                              href="mailto:sobahannan654@gmail.com"
-                              className="text-purple-200 text-sm hover:text-white hover:underline underline-offset-2"
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                window.open('https://mail.google.com/mail/?view=cm&fs=1&to=sobahannan654@gmail.com&su=Project%20Inquiry&body=Hi%20Muhammad%20Soban,%0D%0A%0D%0AI%20would%20like%20to%20discuss%20a%20project%20with%20you.%0D%0A%0D%0ABest%20regards,', '_blank');
+                              }}
+                              className="text-purple-200 text-sm hover:text-white hover:underline underline-offset-2 cursor-pointer"
                             >
                               sobahannan654@gmail.com
                             </a>
