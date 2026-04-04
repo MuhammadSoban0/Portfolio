@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Mail, MessageSquare, Github, Linkedin } from "lucide-react";
+import { Mail, MessageSquare, Github, Linkedin, Phone } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import React from "react";
 
@@ -68,6 +68,29 @@ const Contact = () => {
                               className="text-purple-200 text-sm hover:text-white hover:underline underline-offset-2 cursor-pointer"
                             >
                               sobahannan654@gmail.com
+                            </a>
+                          </div>
+                        </motion.div>
+
+                        <motion.div
+                          className="flex items-start gap-4"
+                          whileHover={{ x: 5 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <div className="p-2.5 rounded-lg bg-green-500/20">
+                            <Phone className="w-5 h-5 text-green-400" />
+                          </div>
+                          <div>
+                            <h4 className="font-semibold mb-1 text-white text-sm">WhatsApp</h4>
+                            <a
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                window.open('https://wa.me/923102443499?text=Hi%20Muhammad%20Soban,%20I%20found%20your%20portfolio%20and%20would%20like%20to%20discuss%20a%20project%20with%20you.', '_blank');
+                              }}
+                              className="text-purple-200 text-sm hover:text-white hover:underline underline-offset-2 cursor-pointer"
+                            >
+                              +92 310 2443499
                             </a>
                           </div>
                         </motion.div>

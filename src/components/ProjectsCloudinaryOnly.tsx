@@ -257,7 +257,7 @@ const projects = [
 
 const ProjectsCloudinaryOnly = () => {
   return (
-    <section id="projects" className="py-20 bg-background relative overflow-hidden">
+    <section id="projects" className="py-10 bg-background relative overflow-hidden">
       {/* Simplified background elements */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/5 via-background to-background" />
       <div className="absolute top-20 left-10 w-72 h-72 bg-purple-500/20 rounded-full blur-3xl" />

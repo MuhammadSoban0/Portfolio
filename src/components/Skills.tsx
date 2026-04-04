@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import { AnimatedCounter } from "./AnimatedCounter";
 
 // SVG Logo components
 const FlutterLogo = () => (
@@ -192,10 +193,10 @@ const Skills = () => {
           className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8"
         >
           {[
-            { number: "6+", label: "Apps Published" },
-            { number: "10K+", label: "Active Users" },
-            { number: "3+", label: "Years Experience" },
-            { number: "100%", label: "Client Satisfaction" },
+            { end: 6, suffix: "+", label: "Apps Published" },
+            { end: 200, suffix: "K+", label: "Downloads" },
+            { end: 3, suffix: "+", label: "Years Experience" },
+            { end: 100, suffix: "%", label: "Client Satisfaction" },
           ].map((stat, index) => (
             <motion.div
               key={stat.label}
@@ -205,13 +206,12 @@ const Skills = () => {
               transition={{ duration: 0.5, delay: 0.1 * index }}
               className="text-center p-6 rounded-2xl bg-gradient-card border border-border hover:border-accent/30 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
             >
-              <motion.div
+              <AnimatedCounter
+                end={stat.end}
+                suffix={stat.suffix}
+                duration={2000 + index * 200}
                 className="text-4xl md:text-5xl font-bold text-gradient mb-2"
-                whileHover={{ scale: 1.1 }}
-                transition={{ type: "spring", stiffness: 400 }}
-              >
-                {stat.number}
-              </motion.div>
+              />
               <div className="text-muted-foreground text-sm font-medium">
                 {stat.label}
               </div>

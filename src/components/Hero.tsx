@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
+import { Github, Linkedin, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { profileImageUrl } from "@/data/profile-image";
 
@@ -32,7 +32,7 @@ const Hero = () => {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background pt-20"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background pt-20 pb-10"
     >
       {/* Simplified background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -121,9 +121,13 @@ const Hero = () => {
                 <Linkedin className="w-6 h-6" />
               </motion.a>
               <motion.a
-                href="mailto:sobahannan654@gmail.com"
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.open('https://mail.google.com/mail/?view=cm&fs=1&to=sobahannan654@gmail.com&su=Contact%20from%20Portfolio&body=Hi%20Muhammad%20Soban,%0D%0A%0D%0AI%20found%20your%20portfolio%20and%20would%20like%20to%20get%20in%20touch.%0D%0A%0D%0ABest%20regards,', '_blank');
+                }}
                 whileHover={{ y: -5, color: "hsl(var(--accent))" }}
-                className="text-muted-foreground transition-colors"
+                className="text-muted-foreground transition-colors cursor-pointer"
               >
                 <Mail className="w-6 h-6" />
               </motion.a>
@@ -164,19 +168,6 @@ const Hero = () => {
             </div>
           </motion.div>
         </div>
-
-        {/* Scroll Indicator */}
-        <motion.div
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.5, duration: 0.6 }}
-          onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
-        >
-          <div className="p-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm hover:bg-accent/20 transition-colors">
-            <ArrowDown className="w-6 h-6 text-accent" />
-          </div>
-        </motion.div>
       </div>
     </section>
   );
